@@ -12,9 +12,7 @@ class PythagoreanTriplet {
         this.b = b;
         this.c = c;
     }
-    public static void main(String[] args){
-        System.out.println("Pythagorean Triplet");
-    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
