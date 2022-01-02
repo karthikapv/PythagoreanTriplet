@@ -26,31 +26,35 @@ class PythagoreanTriplet {
     public int hashCode() {
         return Objects.hash(a, b, c);
     }
-    static PythagoreanTripletBuilder makeTripletsList() {
-        return new PythagoreanTripletBuilder();
-    }
-    static class PythagoreanTripletBuilder {
-        private int factorsLessThanOrEqualTo;
-        private int sumTo;
-        PythagoreanTripletBuilder withFactorsLessThanOrEqualTo(int value) {
-            factorsLessThanOrEqualTo = value;
-            return this;
-        }
-        PythagoreanTripletBuilder thatSumTo(int value) {
-            sumTo = value;
-            return this;
-        }
-        List<PythagoreanTriplet> build() {
 
-            List<PythagoreanTriplet> triplets = new ArrayList<>();
-            for (int a = 1; a <= factorsLessThanOrEqualTo / 2; a++)
-                for (int b = a + 1; b <= (factorsLessThanOrEqualTo - a) / 2; b++)
-                    if (b != a) {
-                        int c = sumTo - (a + b);
-                        if (c != b)
-                            if (a * a + b * b == c * c)
-                                triplets.add(new PythagoreanTriplet(a, b, c));
+    static PythagoreanTripletListBuilder makeTripletsList() {
+        return new PythagoreanTripletListBuilder();
+    }
+
+    static class PythagoreanTripletListBuilder {
+        private int maxFactors;
+        private int sum;
+        public PythagoreanTripletListBuilder withFactorsLessThanOrEqualTo( final int maxFactors ) {
+            this.maxFactors = maxFactors;
+            return this;
+        }
+        public PythagoreanTripletListBuilder thatSumTo( final int sum ) {
+            this.sum = sum;
+            return this;
+        }
+        public List<PythagoreanTriplet> build( ) {
+            if ( maxFactors <= 0 || sum <= 0 ) {
+                throw new IllegalStateException( "maxFactors and/or the sum have not been correctly initialized." );
+            }
+            final List<PythagoreanTriplet> triplets = new ArrayList<>( );
+            for ( int a = 1; a < maxFactors - 4; a++ ) {
+                for ( int b = a + 1; b < maxFactors - 3; b++ ) {
+                    final int c = sum - a - b;
+                    if ( a * a + b * b == c * c ) {
+                        triplets.add( new PythagoreanTriplet( a, b, c ) );
                     }
+                }
+            }
             return triplets;
         }
     }
